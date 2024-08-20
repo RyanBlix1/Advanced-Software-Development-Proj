@@ -12,7 +12,11 @@ jobs:
     steps:
       - name: Send Discord Webhook
         run: |
+          COMMIT_MESSAGE=$(git log -1 --pretty=format:"%s")
+          COMMIT_AUTHOR=$(git log -1 --pretty=format:"%an")
+
+          # Send the webhook with a summary of changes
           curl -X POST \
             -H "Content-Type: application/json" \
-            -d "{\"content\": \"A new commit has been pushed to the main branch!\"}" \
+            -d "{\"content\": \"🚀 A new commit has been pushed by **$COMMIT_AUTHOR**:\n\n**Message:** $COMMIT_MESSAGE\n\n**Changes:**\n$(git diff --name-only HEAD~1 HEAD | sed ':a;N;$!ba;s/\n/\\n/g')\"}" \
             "https://discord.com/api/webhooks/1275330311299010570/uOxNQcfMJqPXQAaf4T7cynDsA0wAwcPh9YFQPTFWaIN7MY6m39UBpNi3osbv9cAF_wEG"
