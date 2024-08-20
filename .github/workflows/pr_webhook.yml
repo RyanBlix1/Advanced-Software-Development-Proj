@@ -10,6 +10,8 @@ jobs:
   send-webhook:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Send Discord Webhook
         run: |
           COMMIT_MESSAGE=$(git log -1 --pretty=format:"%s")
