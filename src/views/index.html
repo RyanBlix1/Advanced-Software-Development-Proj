@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<style>
+    body {
+        padding-top: 56px;
+    }
+
+    .custom-section {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+</style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Incident Reporting System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="w-100" style="max-width: 600px;">
+            <div class="border rounded p-4 shadow-sm bg-white text-center">
+                <h1 class="mb-4">Welcome to the Incident Reporting System</h1>
+                <p>Use the link below to access the incident report form.</p>
+                <a href="/incident" class="btn btn-primary">Go to Incident Report Form</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
