@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Incident View</title>
+    <title>All Incidents</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main.css">
 </head>
@@ -21,7 +21,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/view-incidents">All Incidents</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">About</a>
@@ -42,7 +45,6 @@
             <table id="incidentTable" class="table table-striped table-bordered table-hover">
                 <thead class="table-dark">
                     <tr>
-                        <th>ID</th>
                         <th>Details</th>
                         <th>Date</th>
                         <th>Time</th>
@@ -53,7 +55,7 @@
                         <th>Urgency</th>
                         <th>Impact</th>
                         <th>Risk Assessment</th>
-                        <th>Action</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,29 +77,43 @@
                         const row = document.createElement('tr');
 
                         for (const key in incident) {
-                            const cell = document.createElement('td');
-                            cell.textContent = incident[key];
-                            row.appendChild(cell);
+                            if (key !== 'id') { // Exclude 'id' from being displayed in table cells
+                                const cell = document.createElement('td');
+                                cell.textContent = incident[key];
+                                row.appendChild(cell);
+                            }
                         }
 
                         // Add the Edit button
-                        const actionCell = document.createElement('td');
                         const editButton = document.createElement('a');
-                        editButton.href = `/edit-incident?id=${incident.IncidentID}`; // Ensure this key matches the backend response
+                        editButton.href = `/edit-incident/${incident.id}`;
                         editButton.className = 'btn btn-warning btn-sm';
                         editButton.textContent = 'Edit';
-                        actionCell.appendChild(editButton);
 
                         // Add the Delete button
-                        const deleteCell = document.createElement('td');
                         const deleteButton = document.createElement('button');
                         deleteButton.textContent = 'Delete';
-                        deleteButton.classList.add('btn', 'btn-danger');
+                        deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
                         deleteButton.addEventListener('click', () => {
-                            deleteIncident(incident.IncidentID, row);
+                            if (confirm('Are you sure you want to delete this incident?')) {
+                                fetch(`/api/incident/${incident.id}`, {
+                                    method: 'DELETE',
+                                })
+                                .then(response => {
+                                    if (response.ok) {
+                                        row.remove();
+                                    } else {
+                                        alert('Error deleting incident');
+                                    }
+                                })
+                                .catch(error => console.error('Error deleting incident:', error));
+                            }
                         });
-                        deleteCell.appendChild(deleteButton);
-                        actionCell.appendChild(deleteCell);
+
+                        // Add action buttons to the row
+                        const actionCell = document.createElement('td');
+                        actionCell.appendChild(editButton);
+                        actionCell.appendChild(deleteButton);
 
                         row.appendChild(actionCell);
                         tableBody.appendChild(row);
@@ -105,23 +121,6 @@
                 })
                 .catch(error => console.error('Error fetching incidents:', error));
         });
-
-        function deleteIncident(id, row) {
-            if (confirm('Are you sure you want to delete this incident?')) {
-                fetch(`/api/incident/${id}`, {
-                    method: 'DELETE',
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            row.remove();
-                        } else {
-                            console.error('Error deleting incident:', response);
-                        }
-                    })
-                    .catch(error => console.error('Error deleting incident:', error));
-            }
-        }
-
     </script>
 </body>
 

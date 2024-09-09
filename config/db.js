@@ -17,7 +17,7 @@ let db = new sqlite3.Database(dbName, (err) => {
             offenderId INTEGER,
             urgency TEXT,
             impact TEXT,
-            riskAssessment INTEGER
+            riskAssessment TEXT
         )`, (err) => {
             if (err) {
                 console.error(err.message);
@@ -29,4 +29,5 @@ let db = new sqlite3.Database(dbName, (err) => {
 });
 
 module.exports = db;
+
 
