@@ -19,7 +19,6 @@
         margin-top: 20px;
     }
 </style>
-</head>
 
 <body>
     <!-- Navbar -->
@@ -45,14 +44,20 @@
             </div>
         </div>
     </nav>
+
+    <!-- Main content -->
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
         <div class="w-100" style="max-width: 600px;">
             <div class="border rounded p-4 shadow-sm bg-white text-center">
                 <h1 class="mb-4">Welcome to the Incident Reporting System</h1>
-                <p>Use the link below to access the incident report form.</p>
-                <a href="/incident" class="btn btn-primary">Go to Incident Report Form</a>
+                <p>Use the links below to access different sections of the system.</p>
+                <a href="/incident" class="btn btn-primary mb-3">Go to Incident Report Form</a><br>
+                <a href="/view-incidents" class="btn btn-secondary">View All Incident Forms</a>
             </div>
         </div>
     </div>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

@@ -1,4 +1,4 @@
-const { createItem, readItem, updateItem, deleteItem } = require('../models/incident');
+const { createItem, readItem, updateItem, deleteItem, getItemById } = require('../models/incident');
 
 const submitIncident = (req, res) => {
     const { details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment } = req.body;
@@ -8,6 +8,20 @@ const submitIncident = (req, res) => {
             return res.status(500).send(err.message);
         }
         res.status(201).send(`Incident reported with ID: ${data.id}`);
+    });
+};
+
+const getIncidentById = (req, res) => {
+    const { id } = req.params;  // Check if this line is being executed correctly
+
+    getItemById(id, (err, row) => {
+        if (err) {
+            return res.status(500).send(err.message);
+        }
+        if (!row) {
+            return res.status(404).send('Incident not found');
+        }
+        res.status(200).json(row);
     });
 };
 
@@ -28,7 +42,7 @@ const updateIncident = (req, res) => {
         if (err) {
             return res.status(500).send(err.message);
         }
-        res.status(200).send('Incident updated successfully.');
+        res.status(200).send(`Incident with ID ${id} updated`);
     });
 };
 
@@ -39,8 +53,8 @@ const deleteIncident = (req, res) => {
         if (err) {
             return res.status(500).send(err.message);
         }
-        res.status(200).send('Incident deleted successfully.');
+        res.status(200).send(`Incident with ID ${id} deleted`);
     });
 };
 
-module.exports = { submitIncident, getIncidents, updateIncident, deleteIncident };
+module.exports = { submitIncident, getIncidents, updateIncident, deleteIncident, getIncidentById };
