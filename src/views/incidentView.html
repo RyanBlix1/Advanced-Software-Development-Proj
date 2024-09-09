@@ -1,140 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Incident Report Form</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css"> 
+    <script defer src="/js/incidentView.js"></script>
 </head>
-<style>
-    body {
-        padding-top: 56px;
-    }
-
-    .custom-section {
-        background-color: #f8f9fa;
-        padding: 20px;
-        border-radius: 8px;
-        margin-top: 20px;
-    }
-</style>
-</head>
-
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">Incident Reporting System</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
-                </ul>
+    <div class="container mt-5">
+        <h1>Report a New Incident</h1>
+        <form id="incidentForm" method="POST" action="/api/incident">
+            <div class="form-group">
+                <label for="details">Details:</label>
+                <textarea id="details" name="details" class="form-control" required></textarea>
             </div>
-        </div>
-    </nav>
-    <div class="container d-flex justify-content-center align-items-center min-vh-100">
-        <div class="w-100" style="max-width: 600px;">
-            <div class="border rounded p-4 shadow-sm bg-white">
-                <h1 class="text-center mb-4">Incident Report Form</h1>
-                <form action="/api/incident" method="POST">
-                    <!-- Details -->
-                    <div class="mb-3">
-                        <label for="details" class="form-label">Details</label>
-                        <textarea class="form-control" id="details" name="description" rows="3"
-                            placeholder="Detailed description of the incident." required></textarea>
-                    </div>
-
-                    <!-- Date -->
-                    <div class="mb-3">
-                        <label for="date" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="date" name="date" placeholder="31/08/2024" required>
-                    </div>
-
-                    <!-- Time -->
-                    <div class="mb-3">
-                        <label for="time" class="form-label">Time</label>
-                        <input type="time" class="form-control" id="time" name="time" placeholder="16:45" required>
-                    </div>
-
-                    <!-- Location -->
-                    <div class="mb-3">
-                        <label for="location" class="form-label">Location</label>
-                        <input type="text" class="form-control" id="location" name="location"
-                            placeholder="Level 7, Ward 2, Room 25" required>
-                    </div>
-
-                    <!-- Victim ID -->
-                    <div class="mb-3">
-                        <label for="victimId" class="form-label">Victim ID</label>
-                        <input type="number" class="form-control" id="victimId" name="victimId" placeholder="12345678">
-                    </div>
-
-                    <!-- Witness ID -->
-                    <div class="mb-3">
-                        <label for="witnessId" class="form-label">Witness ID</label>
-                        <input type="number" class="form-control" id="witnessId" name="witnessId"
-                            placeholder="12345678">
-                    </div>
-
-                    <!-- Offender ID -->
-                    <div class="mb-3">
-                        <label for="offenderId" class="form-label">Offender ID</label>
-                        <input type="number" class="form-control" id="offenderId" name="offenderId"
-                            placeholder="12345678">
-                    </div>
-
-                    <!-- Urgency -->
-                    <div class="mb-3">
-                        <label for="urgency" class="form-label">Urgency</label>
-                        <select class="form-select" id="urgency" name="urgency" required>
-                            <option value="" disabled selected>Select urgency</option>
-                            <option value="Low">Low</option>
-                            <option value="Medium">Medium</option>
-                            <option value="High">High</option>
-                        </select>
-                    </div>
-
-                    <!-- Impact -->
-                    <div class="mb-3">
-                        <label for="impact" class="form-label">Impact</label>
-                        <select class="form-select" id="impact" name="impact" required>
-                            <option value="" disabled selected>Select impact</option>
-                            <option value="Low">Low</option>
-                            <option value="Medium">Medium</option>
-                            <option value="High">High</option>
-                        </select>
-                    </div>
-
-                    <!-- Risk Assessment -->
-                    <div class="mb-3">
-                        <label for="riskAssessment" class="form-label">Risk Assessment</label>
-                        <input type="number" class="form-control" id="riskAssessment" name="riskAssessment"
-                            placeholder="Score" min="0" max="100">
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" class="form-control" required>
             </div>
-        </div>
+            <div class="form-group">
+                <label for="time">Time:</label>
+                <input type="time" id="time" name="time" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="victimId">Victim ID:</label>
+                <input type="number" id="victimId" name="victimId" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="witnessId">Witness ID:</label>
+                <input type="number" id="witnessId" name="witnessId" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="offenderId">Offender ID:</label>
+                <input type="number" id="offenderId" name="offenderId" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="urgency">Urgency:</label>
+                <select id="urgency" name="urgency" class="form-control" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="impact">Impact:</label>
+                <select id="impact" name="impact" class="form-control" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="riskAssessment">Risk Assessment:</label>
+                <select id="riskAssessment" name="riskAssessment" class="form-control" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Incident</button>
+        </form>
     </div>
-    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

@@ -1,17 +1,31 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+name: Node.js Build
 
-trigger:
-- main
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
-pool:
-  vmImage: ubuntu-latest
-
-variables:
-  buildConfiguration: 'Release'
-
-steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.17.0'
+        
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build CSS
+        run: npm run build-css
+        
+      - name: Run application
+        run: node app.js

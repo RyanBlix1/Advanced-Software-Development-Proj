@@ -26,5 +26,14 @@ const deleteItem = (id, callback) => {
     db.run(sql, id, callback);
 };
 
-module.exports = { createItem, readItem, updateItem, deleteItem };
+// Get incident by ID
+const getItemById = (id, callback) => {
+    const query = 'SELECT * FROM incident WHERE id = ?';
+    db.get(query, [id], (err, row) => {
+        callback(err, row);
+    });
+};
+
+
+module.exports = { createItem, readItem, updateItem, deleteItem, getItemById };
 
