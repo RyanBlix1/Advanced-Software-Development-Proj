@@ -100,78 +100,80 @@
 
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const incidentId = urlParams.get('id'); // Ensure this ID is valid
+        document.addEventListener('DOMContentLoaded', () => {
+        
+            const path = window.location.pathname;
+            const incidentId = path.split('/').pop();  
 
-    if (incidentId) {
-        document.getElementById('incidentId').value = incidentId;
+            if (incidentId) {
+                document.getElementById('incidentId').value = incidentId;  
 
-        fetch(`/api/incident/${incidentId}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data) {
-                    document.getElementById('details').value = data.details;
-                    document.getElementById('date').value = data.date;
-                    document.getElementById('time').value = data.time;
-                    document.getElementById('location').value = data.location;
-                    document.getElementById('victimId').value = data.victimId;
-                    document.getElementById('witnessId').value = data.witnessId || '';
-                    document.getElementById('offenderId').value = data.offenderId || '';
-                    document.getElementById('urgency').value = data.urgency;
-                    document.getElementById('impact').value = data.impact;
-                    document.getElementById('riskAssessment').value = data.riskAssessment;
-                } else {
-                    alert('Incident not found');
-                }
-            })
-            .catch(error => console.error('Error fetching incident:', error));
-    }
-
-    document.getElementById('editIncidentForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(e.target);
-        const id = formData.get('incidentId'); // Ensure this ID is valid
-        const details = formData.get('details');
-        const date = formData.get('date');
-        const time = formData.get('time');
-        const location = formData.get('location');
-        const victimId = formData.get('victimId');
-        const witnessId = formData.get('witnessId');
-        const offenderId = formData.get('offenderId');
-        const urgency = formData.get('urgency');
-        const impact = formData.get('impact');
-        const riskAssessment = formData.get('riskAssessment');
-
-        fetch(`/api/incident/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                details,
-                date,
-                time,
-                location,
-                victimId,
-                witnessId,
-                offenderId,
-                urgency,
-                impact,
-                riskAssessment
-            }),
-        })
-        .then(response => {
-            if (response.ok) {
-                window.location.href = '/view-incidents'; // Redirect to all incidents page
-            } else {
-                alert('Error updating incident');
+                fetch(`/api/incident/${incidentId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data) {
+                            document.getElementById('details').value = data.details;
+                            document.getElementById('date').value = data.date;
+                            document.getElementById('time').value = data.time;
+                            document.getElementById('location').value = data.location;
+                            document.getElementById('victimId').value = data.victimId;
+                            document.getElementById('witnessId').value = data.witnessId || '';
+                            document.getElementById('offenderId').value = data.offenderId || '';
+                            document.getElementById('urgency').value = data.urgency;
+                            document.getElementById('impact').value = data.impact;
+                            document.getElementById('riskAssessment').value = data.riskAssessment;
+                        } else {
+                            alert('Incident not found');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching incident:', error));
             }
-        })
-        .catch(error => console.error('Error updating incident:', error));
-    });
-});
+
+            
+            document.getElementById('editIncidentForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(e.target);
+                const id = formData.get('incidentId');  
+                const details = formData.get('details');
+                const date = formData.get('date');
+                const time = formData.get('time');
+                const location = formData.get('location');
+                const victimId = formData.get('victimId');
+                const witnessId = formData.get('witnessId');
+                const offenderId = formData.get('offenderId');
+                const urgency = formData.get('urgency');
+                const impact = formData.get('impact');
+                const riskAssessment = formData.get('riskAssessment');
+
+                fetch(`/api/incident/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        details,
+                        date,
+                        time,
+                        location,
+                        victimId,
+                        witnessId,
+                        offenderId,
+                        urgency,
+                        impact,
+                        riskAssessment
+                    }),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/view-incidents';  
+                        } else {
+                            alert('Error updating incident');
+                        }
+                    })
+                    .catch(error => console.error('Error updating incident:', error));
+            });
+        });
 
     </script>
 </body>

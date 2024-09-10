@@ -12,9 +12,9 @@ let db = new sqlite3.Database(dbName, (err) => {
             date TEXT,
             time TEXT,
             location TEXT,
-            victimId INTEGER,
-            witnessId INTEGER,
-            offenderId INTEGER,
+            victimId TEXT,
+            witnessId TEXT,
+            offenderId TEXT,
             urgency TEXT,
             impact TEXT,
             riskAssessment TEXT

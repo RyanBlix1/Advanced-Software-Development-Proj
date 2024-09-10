@@ -121,9 +121,13 @@
 
                     <!-- Risk Assessment -->
                     <div class="mb-3">
-                        <label for="riskAssessment" class="form-label">Risk Assessment</label>
-                        <input type="number" class="form-control" id="riskAssessment" name="riskAssessment"
-                            placeholder="Score" min="0" max="100">
+                        <label for="riskAssessment" class="form-label">Impact</label>
+                        <select class="form-select" id="riskAssessment" name="riskAssessment" required>
+                            <option value="" disabled selected>Select Risk Assessment</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
                     </div>
 
                     <!-- Submit Button -->
