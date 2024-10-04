@@ -101,7 +101,7 @@
                     <div class="mb-3">
                         <label for="urgency" class="form-label">Urgency</label>
                         <select class="form-select" id="urgency" name="urgency" required>
-                            <option value="" disabled selected>Select urgency</option>
+                            <option value="" disabled selected>Urgency</option>
                             <option value="Low">Low</option>
                             <option value="Medium">Medium</option>
                             <option value="High">High</option>
@@ -112,7 +112,7 @@
                     <div class="mb-3">
                         <label for="impact" class="form-label">Impact</label>
                         <select class="form-select" id="impact" name="impact" required>
-                            <option value="" disabled selected>Select impact</option>
+                            <option value="" disabled selected>Confirm Impact</option>
                             <option value="Low">Low</option>
                             <option value="Medium">Medium</option>
                             <option value="High">High</option>
@@ -122,12 +122,8 @@
                     <!-- Risk Assessment -->
                     <div class="mb-3">
                         <label for="riskAssessment" class="form-label">Impact</label>
-                        <select class="form-select" id="riskAssessment" name="riskAssessment" required>
-                            <option value="" disabled selected>Select Risk Assessment</option>
-                            <option value="Low">Low</option>
-                            <option value="Medium">Medium</option>
-                            <option value="High">High</option>
-                        </select>
+                        <input class="form-control" id="riskAssessment" name="riskAssessment"
+                            placeholder="Urgency Impact" readonly>
                     </div>
 
                     <!-- Submit Button -->
@@ -139,6 +135,8 @@
         </div>
     </div>
     <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/js/RiskAssessment.js"></script>
 </body>
 
 </html>

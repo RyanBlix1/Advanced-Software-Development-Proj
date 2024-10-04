@@ -29,5 +29,3 @@ let db = new sqlite3.Database(dbName, (err) => {
 });
 
 module.exports = db;
-
-
