@@ -9,7 +9,7 @@ const submitIncident = ('/', (req, res) => {
         if (err) {
             return res.status(500).send('Error creating incident');
         }
-        res.status(201).send('Incident created successfully');
+        res.redirect('/');
     });
 });
 
