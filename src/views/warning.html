@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warning Management</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Incident Reporting System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/view-incidents">All Incidents</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Warning Management</h1>
+
+        <!-- Warning Submission Form -->
+        <div class="border rounded p-4 shadow-sm bg-white mb-5">
+            <h2 class="mb-4">Log a New Warning</h2>
+            <form id="submitWarningForm">
+                <div class="mb-3">
+                    <label for="offenderId" class="form-label">Offender ID</label>
+                    <input type="number" class="form-control" id="offenderId" name="offenderId" required>
+                </div>
+                <div class="mb-3">
+                    <label for="warningDetails" class="form-label">Warning Details</label>
+                    <textarea class="form-control" id="warningDetails" name="warningDetails" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" id="status" name="status" required>
+                        <option value="active">Active</option>
+                        <option value="resolved">Resolved</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Warning</button>
+            </form>
+        </div>
+
+        <!-- List of Warnings -->
+        <div class="border rounded p-4 shadow-sm bg-white">
+            <h2 class="mb-4">Existing Warnings</h2>
+            <table class="table table-bordered" id="warningTable">
+                <thead>
+                    <tr>
+                        <th>Warning ID</th>
+                        <th>Offender ID</th>
+                        <th>Warning Details</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Warnings will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Load warnings on page load
+        document.addEventListener('DOMContentLoaded', loadWarnings);
+
+        // Fetch and display all warnings
+        function loadWarnings() {
+            fetch('/api/warnings')
+                .then(response => response.json())
+                .then(warnings => {
+                    const tableBody = document.querySelector('#warningTable tbody');
+                    tableBody.innerHTML = ''; // Clear previous rows
+                    warnings.forEach(warning => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${warning.id}</td>
+                            <td>${warning.offenderId}</td>
+                            <td>${warning.warningDetails}</td>
+                            <td>
+                                <select class="form-select warning-status" data-id="${warning.id}">
+                                    <option value="active" ${warning.status === 'active' ? 'selected' : ''}>Active</option>
+                                    <option value="resolved" ${warning.status === 'resolved' ? 'selected' : ''}>Resolved</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-danger delete-warning" data-id="${warning.id}">Delete</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+
+                    // Add event listeners to update warning status
+                    document.querySelectorAll('.warning-status').forEach(select => {
+                        select.addEventListener('change', (e) => {
+                            const warningId = e.target.getAttribute('data-id');
+                            const newStatus = e.target.value;
+                            updateWarningStatus(warningId, newStatus);
+                        });
+                    });
+
+                    // Add event listeners to delete warnings
+                    document.querySelectorAll('.delete-warning').forEach(button => {
+                        button.addEventListener('click', (e) => {
+                            const warningId = e.target.getAttribute('data-id');
+                            deleteWarning(warningId);
+                        });
+                    });
+                })
+                .catch(error => console.error('Error loading warnings:', error));
+        }
+
+        // Submit new warning
+        document.getElementById('submitWarningForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const offenderId = document.getElementById('offenderId').value;
+            const warningDetails = document.getElementById('warningDetails').value;
+            const status = document.getElementById('status').value;
+        
+            fetch(`/api/warning`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ offenderId, warningDetails, status })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Warning submitted successfully');
+                    document.getElementById('submitWarningForm').reset();
+                    loadWarnings(); // Automatically reload warnings after submission
+                } else {
+                    alert('Error submitting warning');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error submitting warning');
+            });
+        });
+        
+        // Fetch and display all warnings
+        function loadWarnings() {
+            fetch('/api/warning')
+                .then(response => response.json())
+                .then(warnings => {
+                    const tableBody = document.querySelector('#warningTable tbody');
+                    tableBody.innerHTML = ''; // Clear previous rows
+                    warnings.forEach(warning => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${warning.id}</td>
+                            <td>${warning.offenderId}</td>
+                            <td>${warning.warningDetails}</td>
+                            <td>
+                                <select class="form-select warning-status" data-id="${warning.id}">
+                                    <option value="active" ${warning.status === 'active' ? 'selected' : ''}>Active</option>
+                                    <option value="resolved" ${warning.status === 'resolved' ? 'selected' : ''}>Resolved</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-danger delete-warning" data-id="${warning.id}">Delete</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+        
+                    // Add event listeners to update warning status
+                    document.querySelectorAll('.warning-status').forEach(select => {
+                        select.addEventListener('change', (e) => {
+                            const warningId = e.target.getAttribute('data-id');
+                            const newStatus = e.target.value;
+                            updateWarningStatus(warningId, newStatus);
+                        });
+                    });
+        
+                    // Add event listeners to delete warnings
+                    document.querySelectorAll('.delete-warning').forEach(button => {
+                        button.addEventListener('click', (e) => {
+                            const warningId = e.target.getAttribute('data-id');
+                            deleteWarning(warningId);
+                        });
+                    });
+                })
+                .catch(error => console.error('Error loading warnings:', error));
+        }
+        
+        // Initial load of warnings on page load
+        document.addEventListener('DOMContentLoaded', loadWarnings);
+        
+        // Update warning status
+        function updateWarningStatus(warningId, status) {
+            fetch(`/api/warning/${warningId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Warning status updated');
+                } else {
+                    alert('Error updating warning status');
+                }
+            });
+        }
+        
+        // Delete a warning
+        function deleteWarning(warningId) {
+            if (confirm('Are you sure you want to delete this warning?')) {
+                fetch(`/api/warning/${warningId}`, { method: 'DELETE' })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Warning deleted');
+                        loadWarnings(); // Reload warnings after deletion
+                    } else {
+                        alert('Error deleting warning');
+                    }
+                });
+            }
+        }
+        
+    </script>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
