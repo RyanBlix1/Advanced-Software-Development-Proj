@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const incidentRoutes = require('./src/routes/incidentRoutes');
+const offenderRoutes = require('./src/routes/offenderRoutes');
 
 const app = express();
 
@@ -8,6 +9,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/incident', incidentRoutes);
+app.use('/api/offender', offenderRoutes);
 
 app.use((req, res, next) => {
     console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
@@ -34,6 +36,10 @@ app.get('/edit-incident/:id', (req, res) => {
     const id = req.params.id;
     console.log('ID from URL path:', id);
     res.sendFile(path.join(__dirname, 'src', 'views', 'editIncident.html'));
+});
+
+app.get('/offender-form', (req, res) => {
+    res.sendFile(path.join(__dirname, 'src', 'views', 'offenderForm.html'));
 });
 
 app.listen(3000, () => {
