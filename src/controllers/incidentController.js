@@ -69,4 +69,5 @@ const deleteIncident = (req, res) => {
     });
 };
 
+
 module.exports = { submitIncident, getIncidents, updateIncident, deleteIncident, getIncidentById };
