@@ -3,13 +3,16 @@ const { createItem, readItem, updateItem, deleteItem, getItemById } = require('.
 const submitIncident = ('/', (req, res) => {
     const { details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment } = req.body;
 
+    console.log(req.body); 
+
     createItem(details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment, (err) => {
         if (err) {
             return res.status(500).send('Error creating incident');
         }
-        res.status(201).send('Incident created successfully');
+        res.redirect('/');
     });
 });
+
 
 const getIncidentById = (req, res) => {
     const { id } = req.params;
@@ -68,5 +71,6 @@ const deleteIncident = (req, res) => {
         res.status(200).send(`Incident with ID ${id} deleted`);
     });
 };
+
 
 module.exports = { submitIncident, getIncidents, updateIncident, deleteIncident, getIncidentById };

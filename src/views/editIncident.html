@@ -97,6 +97,41 @@
             <button type="submit" class="btn btn-primary">Update Incident</button>
         </form>
     </div>
+    <form id="editIncidentForm">
+        <input type="hidden" id="incidentId" name="incidentId">
+        <div class="mb-3">
+            <label for="details" class="form-label">Details</label>
+            <textarea class="form-control" id="details" name="details" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" class="form-control" id="location" name="location">
+        </div>
+        <button type="submit" class="btn btn-primary">Update Incident</button>
+    </form>
+    
+    <script>
+        document.getElementById('editIncidentForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = document.getElementById('incidentId').value;
+            const location = document.getElementById('location').value;
+            const details = document.getElementById('details').value;
+    
+            fetch(`/api/incident/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ location, details })
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/view-incidents';
+                } else {
+                    alert('Error updating incident');
+                }
+            });
+        });
+    </script>
+    
 
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -176,6 +211,9 @@
         });
 
     </script>
+
+
+
 </body>
 
 </html>
