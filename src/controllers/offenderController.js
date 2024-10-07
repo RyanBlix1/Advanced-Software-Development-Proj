@@ -4,11 +4,13 @@ const { createOffender, readOffenders, updateOffender, deleteOffender, getOffend
 const createOffenderRecord = (req, res) => {
     const { firstName, surname, banStatus, warningID } = req.body;
 
-    createOffender(firstName, surname, banStatus, warningID, (err, result) => {
+    console.log(req.body);
+
+    createOffender(firstName, surname, banStatus, warningID, (err) => {
         if (err) {
-            return res.status(400).send(err.message);
+            return res.status(500).send('Error creating offender');
         }
-        res.status(201).json({ message: 'Offender created successfully', id: result.id });
+        res.redirect('/');
     });
 };
 
