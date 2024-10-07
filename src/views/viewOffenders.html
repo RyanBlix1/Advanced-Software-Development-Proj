@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Offenders</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Incident Reporting System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/view-incidents">All Incidents</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">All Offenders</h1>
+
+        <!-- Table for Offender List -->
+        <div class="table-responsive">
+            <table id="offenderTable" class="table table-striped table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Surname</th>
+                        <th>Ban Status</th>
+                        <th>Warning ID</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/api/offender')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    
+                    const offenders = data;
+                    const tableBody = document.querySelector('#offenderTable tbody');
+
+                    offenders.forEach(offender => {
+                        const row = document.createElement('tr');
+
+                        // Add offender data to the table
+                        row.innerHTML = `
+                            <td>${offender.firstName}</td>
+                            <td>${offender.surname}</td>
+                            <td>${offender.banStatus}</td>
+                            <td>${offender.warningID}</td>
+                        `;
+
+                        // Add Edit and Delete buttons
+                        const actionCell = document.createElement('td');
+
+                        const editButton = document.createElement('a');
+                        editButton.href = `/edit-offender/${offender.id}`;
+                        editButton.className = 'btn btn-warning btn-sm';
+                        editButton.textContent = 'Edit';
+
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
+                        deleteButton.addEventListener('click', () => {
+                            if (confirm('Are you sure you want to delete this offender?')) {
+                                fetch(`/api/offender/${offender.id}`, {
+                                    method: 'DELETE',
+                                })
+                                .then(response => {
+                                    if (response.ok) {
+                                        row.remove();
+                                    } else {
+                                        alert('Error deleting offender');
+                                    }
+                                });
+                            }
+                        });
+
+                        actionCell.appendChild(editButton);
+                        actionCell.appendChild(deleteButton);
+                        row.appendChild(actionCell);
+
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching offenders:', error));
+        });
+    </script>
+</body>
+</html>
