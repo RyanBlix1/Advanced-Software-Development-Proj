@@ -53,6 +53,7 @@ app.get('/view-offenders', (req, res) => {
 app.get('/edit-offender/:id', (req, res) => {
     const id = req.params.id;
     res.sendFile(path.join(__dirname, 'src', 'views', 'editOffender.html'));
+});
   
 app.get('/warning', (req, res) => {
     res.sendFile(path.join(__dirname, 'src', 'views', 'warning.html'));
