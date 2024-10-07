@@ -48,5 +48,44 @@ const insertFakeData = () => {
     db.close();
 };
 
+const insertFakeOffenderData = () => {
+    const offenders = [];
+    const firstNames = ['John', 'Jane', 'Ben', 'Alice', 'Michael', 'Sarah'];
+    const surnames = ['Smith', 'Doe', 'Brown', 'Wilson', 'Taylor', 'Johnson'];
+    const banStatuses = ['Banned for life', 'Temporary ban', 'No ban', 'Under review'];
+    const warningIDs = ['1001', '1002', '1003', '1004', '1005', '1006'];
+
+    // Generate 10 fake offenders
+    for (let i = 0; i < 10; i++) {
+        const firstName = getRandomItem(firstNames);
+        const surname = getRandomItem(surnames);
+        const banStatus = getRandomItem(banStatuses);
+        const warningID = getRandomItem(warningIDs);
+
+        offenders.push([firstName, surname, banStatus, warningID]);
+    }
+
+    // SQL query to insert fake data into the offender table
+    const sql = `
+        INSERT INTO offender (firstName, surname, banStatus, warningID)
+        VALUES (?, ?, ?, ?);
+    `;
+
+    // Insert each generated offender into the database
+    db.serialize(() => {
+        offenders.forEach(offender => {
+            db.run(sql, offender, (err) => {
+                if (err) {
+                    return console.error(err.message);
+                }
+                console.log('Fake offender inserted');
+            });
+        });
+    });
+
+    db.close();
+};
+
 // Call the function to insert the data
 insertFakeData();
+insertFakeOffenderData();
