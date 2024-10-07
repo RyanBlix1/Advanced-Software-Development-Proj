@@ -19,6 +19,6 @@ steps:
   displayName: 'Build CSS'
 
 - script: |
-    npx tsx src/tests/edit_incident_report.ts
-  displayName: 'Run src/tests/edit_incident_report.ts with tsx'
+    npx tsx src/tests/unit_test.ts
+  displayName: 'Run src/tests/unit_test.ts'
   continueOnError: false

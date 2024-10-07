@@ -1,4 +1,5 @@
 import assert from 'assert';
+import { exec } from 'child_process';
 
 declare global {
   interface Console {
@@ -8,7 +9,23 @@ declare global {
 
 console.success = (message: string) => {console.log("\x1b[32m%s\x1b[0m", message)}
 
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 (async () => {
+  console.log('Starting Server')
+  exec('node app.js', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+  });
+  await sleep(10000)
+
   console.log('Incident Report Viewing')
   const response = await fetch("http://localhost:3000/api/incident/3")
   const data = await response.text()
@@ -103,4 +120,6 @@ console.success = (message: string) => {console.log("\x1b[32m%s\x1b[0m", message
 
   // User Access Control
   // Incident Allocation
+
+  process.exit()
 })();
