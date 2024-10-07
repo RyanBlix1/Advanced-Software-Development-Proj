@@ -42,6 +42,15 @@ app.get('/offender-form', (req, res) => {
     res.sendFile(path.join(__dirname, 'src', 'views', 'offenderForm.html'));
 });
 
+app.get('/view-offenders', (req, res) => {
+    res.sendFile(path.join(__dirname, 'src', 'views', 'viewOffenders.html'));
+});
+
+app.get('/edit-offender/:id', (req, res) => {
+    const id = req.params.id;
+    res.sendFile(path.join(__dirname, 'src', 'views', 'editOffender.html'));
+});
+
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
 });
