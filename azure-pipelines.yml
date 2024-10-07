@@ -17,3 +17,8 @@ steps:
 - script: |
     npm run build-css
   displayName: 'Build CSS'
+
+- script: |
+    npx tsx src/tests/edit_incident_report.ts
+  displayName: 'Run src/tests/edit_incident_report.ts with tsx'
+  continueOnError: false
