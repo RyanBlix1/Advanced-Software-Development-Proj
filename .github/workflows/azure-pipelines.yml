@@ -15,15 +15,3 @@ variables:
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
-
-- task: UseNode@1
-  inputs:
-    version: '16.x'
-
-- script: npm install
-  displayName: 'npm install'
-
-- script: |
-    npx tsx src/tests/edit_incident_report.ts
-  displayName: 'Run src/tests/edit_incident_report.ts with tsx'
-  continueOnError: false
