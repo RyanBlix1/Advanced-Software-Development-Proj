@@ -32,13 +32,15 @@ To get started with this project, follow these steps:
 
    -npm install
 
-4. **Start the Server:**
+   -may have to use npm install express-session if you pull and error when using node app.js (below)
+
+5. **Start the Server:**
 
    Start the server to run the application on localhost:3000:
 
    node app.js
 
-5. **Access the Application:**
+6. **Access the Application:**
 
    Open your web browser and navigate to http://localhost:3000 to see the application in action.
 
