@@ -42,5 +42,16 @@ To get started with this project, follow these steps:
 
    Open your web browser and navigate to http://localhost:3000 to see the application in action.
 
+   ## login
+
+   **Admin login**
+   Username: admin
+   Password: admin
+
+   **User login**
+   Username: user
+   Password: user
+
+
 
    
