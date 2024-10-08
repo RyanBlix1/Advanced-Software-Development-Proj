@@ -1,9 +1,9 @@
 const db = require('../../config/db.js');
 
 // CREATE
-const createItem = (details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment, callback) => {
-    const sql = `INSERT INTO incident (details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    db.run(sql, [details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment], function(err) {
+const createItem = (details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment, manager, status, callback) => {
+    const sql = `INSERT INTO incident (details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment, manager, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    db.run(sql, [details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment, manager, status], function(err) {
         callback(err, { id: this.lastID });
     });
 };
@@ -15,9 +15,9 @@ const readItem = (callback) => {
 };
 
 // UPDATE
-const updateItem = (id, details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment, callback) => {
-    const sql = `UPDATE incident SET details = ?, date = ?, time = ?, location = ?, victimId = ?, witnessId = ?, offenderId = ?, urgency = ?, impact = ?, riskAssessment = ? WHERE id = ?`;
-    db.run(sql, [details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment, id], callback);
+const updateItem = (id, details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment, manager, status, callback) => {
+    const sql = `UPDATE incident SET details = ?, date = ?, time = ?, location = ?, victimId = ?, witnessId = ?, offenderId = ?, urgency = ?, impact = ?, riskAssessment = ?, manager = ?, status = ? WHERE id = ?`;
+    db.run(sql, [details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment, manager, status, id], callback);
 };
 
 // DELETE

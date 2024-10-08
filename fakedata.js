@@ -86,6 +86,5 @@ const insertFakeOffenderData = () => {
     db.close();
 };
 
-// Call the function to insert the data
 insertFakeData();
 insertFakeOffenderData();
