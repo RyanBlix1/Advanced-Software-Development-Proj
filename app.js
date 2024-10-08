@@ -1,3 +1,4 @@
+const session = require('express-session');
 const express = require('express');
 const path = require('path');
 const incidentRoutes = require('./src/routes/incidentRoutes');
@@ -20,6 +21,36 @@ app.use((req, res, next) => {
     next();
 });
 
+//login
+app.use(session({
+    secret: 'yourSecretKey',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    if ((username === 'admin' && password === 'admin') || (username === 'user' && password === 'user')) {
+        req.session.user = { username };
+        return res.redirect('/');
+    } else {
+        return res.status(401).send('Invalid credentials');
+    }
+});
+
+app.use((req, res, next) => {
+    if (!req.session.user && req.url !== '/login') {
+        return res.redirect('/login');
+    }
+    next();
+});
+
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'src', 'views', 'login.html'));
+});
+
+//join in at index
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'src', 'views', 'index.html'));
 });
