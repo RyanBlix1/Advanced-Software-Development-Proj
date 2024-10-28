@@ -16,12 +16,34 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
+name: Node.js CI/CD Pipeline
+
 on:
   push:
     branches:
-      - main
-      - development
+      - main  # Trigger the workflow when code is pushed to the main branch
   pull_request:
     branches:
-      - main
-      - development
+      - main  # Trigger the workflow on pull requests to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14.x'  # Adjust this to your Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test  # Ensure your project has a test script in package.json
+
+      - name: Build project
+        run: npm run build  # Only if your project has a build step
