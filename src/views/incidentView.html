@@ -126,7 +126,26 @@
                         <input class="form-control" id="riskAssessment" name="riskAssessment"
                             placeholder="Urgency Impact" readonly>
                     </div>
-                    
+
+                    <!-- Manager -->
+                    <div class="mb-3">
+                        <label for="manager" class="form-label">Assign to Manager</label>
+                        <select class="form-select" id="manager" name="manager">
+                            <option value="">None</option>
+                            <option value="Manager1">Admin</option>
+                        </select>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status" name="status">
+                            <option value="assigned">Assigned</option>
+                            <option value="in progress">In Progress</option>
+                            <option value="resolved">Resolved</option>
+                        </select>
+                    </div>
+
                     <!-- Submit Button -->
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary">Submit</button>
