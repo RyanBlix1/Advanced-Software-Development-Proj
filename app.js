@@ -60,6 +60,6 @@ app.get('/warning', (req, res) => {
     res.sendFile(path.join(__dirname, 'src', 'views', 'warning.html'));
 });
 
-server.listen(port, () => {
+app.listen(port, () => {
     console.log(`Server running on port ${port}`);
   });
