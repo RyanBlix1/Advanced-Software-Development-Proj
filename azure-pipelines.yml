@@ -45,4 +45,4 @@ jobs:
             azureSubscription: 'Azure for Students (661a11a2-4925-44c3-9d96-631d27dac2e2)'
             appName: 'IncidentReport'
             package: '$(System.DefaultWorkingDirectory)/public'
-displayName: 'Deploy to Azure App Service'
+          displayName: 'Deploy to Azure App Service'
