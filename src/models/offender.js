@@ -2,9 +2,18 @@ const db = require('../../config/db.js');
 
 // CREATE - Add a new offender
 const createOffender = (firstName, surname, banStatus, warningID, callback) => {
+    console.log('Made it here');
+    
     const sql = `INSERT INTO offender (firstName, surname, banStatus, warningID) VALUES (?, ?, ?, ?)`;
+    
     db.run(sql, [firstName, surname, banStatus, warningID], function(err) {
-        callback(err, { id: this.lastID });
+        if (err) {
+            console.error("Error executing insert:", err.message);
+            callback(err, null);
+        } else {
+            console.log("Offender added with ID:", this.lastID);
+            callback(null, { id: this.lastID });
+        }
     });
 };
 

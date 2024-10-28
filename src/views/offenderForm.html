@@ -45,7 +45,10 @@
             </div>
             <div class="mb-3">
                 <label for="banStatus" class="form-label">Ban Status</label>
-                <textarea class="form-control" id="banStatus" name="banStatus" rows="3" required></textarea>
+                <select class="form-control" id="banStatus" name="banStatus" required>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>                
             </div>
             <div class="mb-3">
                 <label for="warningID" class="form-label">Warning ID</label>
