@@ -115,53 +115,15 @@
             <button type="submit" class="btn btn-primary">Update Incident</button>
         </form>
     </div>
-    
-    <form id="editIncidentForm">
-        <input type="hidden" id="incidentId" name="incidentId">
-        <div class="mb-3">
-            <label for="details" class="form-label">Details</label>
-            <textarea class="form-control" id="details" name="details" rows="3"></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="location" class="form-label">Location</label>
-            <input type="text" class="form-control" id="location" name="location">
-        </div>
-        <button type="submit" class="btn btn-primary">Update Incident</button>
-    </form>
-    
-    <script>
-        document.getElementById('editIncidentForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const id = document.getElementById('incidentId').value;
-            const location = document.getElementById('location').value;
-            const details = document.getElementById('details').value;
-    
-            fetch(`/api/incident/${id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ location, details })
-            })
-            .then(response => {
-                if (response.ok) {
-                    window.location.href = '/view-incidents';
-                } else {
-                    alert('Error updating incident');
-                }
-            });
-        });
-    </script>
-    
-
-    <script src="/js/bootstrap.bundle.min.js"></script>
+        
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-        
             const path = window.location.pathname;
             const incidentId = path.split('/').pop();  
-
+    
             if (incidentId) {
                 document.getElementById('incidentId').value = incidentId;  
-
+    
                 fetch(`/api/incident/${incidentId}`)
                     .then(response => response.json())
                     .then(data => {
@@ -176,17 +138,18 @@
                             document.getElementById('urgency').value = data.urgency;
                             document.getElementById('impact').value = data.impact;
                             document.getElementById('riskAssessment').value = data.riskAssessment;
+                            document.getElementById('manager').value = data.manager || '';  // New field
+                            document.getElementById('status').value = data.status || '';    // New field
                         } else {
                             alert('Incident not found');
                         }
                     })
                     .catch(error => console.error('Error fetching incident:', error));
             }
-
-            
+    
             document.getElementById('editIncidentForm').addEventListener('submit', (e) => {
                 e.preventDefault();
-
+    
                 const formData = new FormData(e.target);
                 const id = formData.get('incidentId');  
                 const details = formData.get('details');
@@ -199,7 +162,9 @@
                 const urgency = formData.get('urgency');
                 const impact = formData.get('impact');
                 const riskAssessment = formData.get('riskAssessment');
-
+                const manager = formData.get('manager');  // New field
+                const status = formData.get('status');    // New field
+    
                 fetch(`/api/incident/${id}`, {
                     method: 'PUT',
                     headers: {
@@ -215,7 +180,9 @@
                         offenderId,
                         urgency,
                         impact,
-                        riskAssessment
+                        riskAssessment,
+                        manager,   // New field
+                        status     // New field
                     }),
                 })
                     .then(response => {
@@ -228,11 +195,7 @@
                     .catch(error => console.error('Error updating incident:', error));
             });
         });
-
-    </script>
-
-
-
+    </script>  
 </body>
 
 </html>
