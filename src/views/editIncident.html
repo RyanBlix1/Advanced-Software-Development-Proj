@@ -138,8 +138,8 @@
                             document.getElementById('urgency').value = data.urgency;
                             document.getElementById('impact').value = data.impact;
                             document.getElementById('riskAssessment').value = data.riskAssessment;
-                            document.getElementById('manager').value = data.manager || '';  // New field
-                            document.getElementById('status').value = data.status || '';    // New field
+                            document.getElementById('manager').value = data.manager || '';
+                            document.getElementById('status').value = data.status || '';  
                         } else {
                             alert('Incident not found');
                         }
@@ -162,8 +162,8 @@
                 const urgency = formData.get('urgency');
                 const impact = formData.get('impact');
                 const riskAssessment = formData.get('riskAssessment');
-                const manager = formData.get('manager');  // New field
-                const status = formData.get('status');    // New field
+                const manager = formData.get('manager');
+                const status = formData.get('status'); 
     
                 fetch(`/api/incident/${id}`, {
                     method: 'PUT',
@@ -181,8 +181,8 @@
                         urgency,
                         impact,
                         riskAssessment,
-                        manager,   // New field
-                        status     // New field
+                        manager,
+                        status     
                     }),
                 })
                     .then(response => {
