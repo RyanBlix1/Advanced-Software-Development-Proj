@@ -28,6 +28,22 @@ let db = new sqlite3.Database(dbName, (err) => {
             }
         });
 
+                // Create 'offender' table if it doesn't exist
+        db.run(`CREATE TABLE IF NOT EXISTS offender (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            firstName TEXT NOT NULL,
+            surname TEXT NOT NULL,
+            banStatus TEXT CHECK(banStatus IN ('active', 'inactive')) NOT NULL,
+            warningID INTEGER,
+            FOREIGN KEY (warningID) REFERENCES warnings(id) ON DELETE SET NULL
+        )`, (err) => {
+            if (err) {
+                console.error(err.message);
+            } else {
+                console.log("Table 'offender' created or verified.");
+            }
+        });
+
         // Create 'warnings' table if it doesn't exist
         db.run(`CREATE TABLE IF NOT EXISTS warnings (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
