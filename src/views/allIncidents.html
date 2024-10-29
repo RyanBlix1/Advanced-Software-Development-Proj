@@ -55,7 +55,9 @@
                         <th>Urgency</th>
                         <th>Impact</th>
                         <th>Risk Assessment</th>
-                        <th>Actions</th>
+                        <th>Manager</th>
+                        <th>Status</th>
+                        <th>Actions</th>                        
                     </tr>
                 </thead>
                 <tbody>
@@ -77,20 +79,18 @@
                         const row = document.createElement('tr');
 
                         for (const key in incident) {
-                            if (key !== 'id') { // Exclude 'id' from being displayed in table cells
+                            if (key !== 'id') {
                                 const cell = document.createElement('td');
                                 cell.textContent = incident[key];
                                 row.appendChild(cell);
                             }
                         }
 
-                        // Add the Edit button
                         const editButton = document.createElement('a');
                         editButton.href = `/edit-incident/${incident.id}`;
                         editButton.className = 'btn btn-warning btn-sm';
                         editButton.textContent = 'Edit';
 
-                        // Add the Delete button
                         const deleteButton = document.createElement('button');
                         deleteButton.textContent = 'Delete';
                         deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
@@ -110,7 +110,6 @@
                             }
                         });
 
-                        // Add action buttons to the row
                         const actionCell = document.createElement('td');
                         actionCell.appendChild(editButton);
                         actionCell.appendChild(deleteButton);

@@ -6,6 +6,7 @@ const offenderRoutes = require('./src/routes/offenderRoutes');
 const warningRoutes = require('./src/routes/warningRoutes');
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -90,6 +91,6 @@ app.get('/warning', (req, res) => {
     res.sendFile(path.join(__dirname, 'src', 'views', 'warning.html'));
 });
 
-app.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000');
-});
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });

@@ -1,11 +1,11 @@
 const { createItem, readItem, updateItem, deleteItem, getItemById } = require('../models/incident');
 
 const submitIncident = ('/', (req, res) => {
-    const { details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment } = req.body;
+    const { details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment, manager, status } = req.body;
 
     console.log(req.body); 
 
-    createItem(details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment, (err) => {
+    createItem(details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment, manager, status, (err) => {
         if (err) {
             return res.status(500).send('Error creating incident');
         }
@@ -40,12 +40,12 @@ const getIncidents = (req, res) => {
 
 const updateIncident = (req, res) => {
     const { id } = req.params;
-    const { details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment } = req.body;
+    const { details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment, manager, status } = req.body;
 
     console.log(`Updating incident with ID: ${id}`);
     console.log('Request Body:', req.body);
 
-    updateItem(id, details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment, (err) => {
+    updateItem(id, details, date, time, location, victimId, witnessId, offenderId, urgency, impact, riskAssessment, manager, status, (err) => {
         if (err) {
             console.error('Error updating incident:', err);
             return res.status(500).send('Error updating incident');
