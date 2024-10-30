@@ -6,8 +6,16 @@ The Incident Reporting System is a web application designed to allow users to re
 
 ## Features
 
-- **Incident Reporting:** Users can submit incident reports through a web form.
-- rest tbc...
+- **Risk Assessment Matrix:** Automatically calculate risk level based on urgency and impact. (Ahmed)
+- **Incident Report Creation:** Users can submit incident reports through a web form. (Parsa)
+- **Incident Report Viewing: Users can view all incident reports created. (Alex)
+- **Incident Report Editing** Admins/Managers can edit existing reports. (Jungmin)
+- **Incident Report Deleting** Users can delete unassigned incident reports in the event of mistake or irrelevance. (Ryan)
+- **Offender Detail Recording** Users can create offenders which are stored in the database. (Ryan)
+- **Offender Detail Viewing** Users can view all recorded offenders and their ID's. (Alex)
+- **Warning Management** Loggs warnings issued to offenders and there current status. (Jungmin)
+- **User Access Control** Assigns roles and privlages based on account login details. (Ahmed)
+- **Incident allocation** Users can assign incident reports to specific managers for review. (Parsa) 
 
 ## Technologies Used
 
@@ -44,16 +52,15 @@ To get started with this project, follow these steps:
 
    Open your web browser and navigate to http://localhost:3000 to see the application in action.
 
-   ## login
+7. **login Details**
 
-   **Admin login**
-   Username: admin
-   Password: admin
+   Basic accounts created for testing purposes 
 
-   **User login**
-   Username: user
-   Password: user
+   Manager account
+      Username: admin
+      Password: admin
 
-
-
+   User account
+      Username: user
+      Password: user
    
