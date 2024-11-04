@@ -27,22 +27,3 @@ jobs:
       npx tsx src/tests/unit_test.ts
     displayName: 'Run src/tests/unit_test.ts'
     continueOnError: false
-
-- deployment: deploy_to_production
-  displayName: 'Deploy to Production'
-  dependsOn: build_and_test
-  condition: succeeded()
-  environment: 'Production'
-  strategy:
-    runOnce:
-      deploy:
-        steps:
-        - script: echo "Deploying application to production..."
-          displayName: 'Deployment Step'
-        
-        - task: AzureWebApp@1
-          inputs:
-            azureSubscription: 'Azure for Students (661a11a2-4925-44c3-9d96-631d27dac2e2)'
-            appName: 'IncidentReport'
-            package: '$(System.DefaultWorkingDirectory)/public'
-          displayName: 'Deploy to Azure App Service'
