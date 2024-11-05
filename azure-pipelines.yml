@@ -26,12 +26,10 @@ stages:
         npm run build-css
       displayName: 'Build CSS'
 
-    # Verify contents of the project root (optional)
     - script: |
         ls -R $(Build.SourcesDirectory) || echo "No files found in the project directory"
       displayName: 'Verify project directory contents'
 
-    # Archive the entire project root as a .zip, excluding node_modules if necessary
     - task: ArchiveFiles@2
       inputs:
         rootFolderOrFile: '$(Build.SourcesDirectory)'
@@ -39,12 +37,10 @@ stages:
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/application.zip'
         replaceExistingArchive: true
-        # Exclude node_modules to reduce archive size if needed
         tarCompression: gz
         additionalArguments: '--exclude=node_modules'
       displayName: 'Archive project as .zip'
 
-    # Publish the build output as a single .zip artifact
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)/application.zip'
@@ -72,3 +68,5 @@ stages:
                   azureSubscription: 'IncidentRS'
                   appName: 'IncidentRS'
                   package: '$(Pipeline.Workspace)/app/application.zip'
+
+                  
