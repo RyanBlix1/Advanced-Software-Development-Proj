@@ -11,6 +11,8 @@
     "sass": "^1.78.0"
   },
   "scripts": {
-    "build-css": "sass src/styles/main.scss public/css/main.css"
+    "build-css": "sass src/styles/main.scss public/css/main.css",
+    "build": "npm run build-css",
+    "start": "node app.js"
   }
 }
