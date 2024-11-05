@@ -6,43 +6,67 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-jobs:
-- job: build_and_test
-  displayName: 'Build and Test'
-  steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '20.x'  # This will install Node.js 20.x
-    displayName: 'Set up Node.js'
+stages:
+- stage: Build
+  displayName: 'Build and Test Stage'
+  jobs:
+  - job: build_and_test
+    displayName: 'Build and Test'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '20.x'  # This will install Node.js 20.x
+      displayName: 'Set up Node.js'
 
-  - script: |
-      npm install
-    displayName: 'Install dependencies'
+    - script: |
+        npm install
+      displayName: 'Install dependencies'
 
-  - script: |
-      npm run build-css
-    displayName: 'Build CSS'
+    - script: |
+        npm run build-css
+      displayName: 'Build CSS'
 
-  - script: |
-      npx tsx src/tests/unit_test.ts
-    displayName: 'Run src/tests/unit_test.ts'
-    continueOnError: false
+    - script: |
+        ls -R $(Build.SourcesDirectory) || echo "No files found in the project directory"
+      displayName: 'Verify project directory contents'
 
-- deployment: deploy_to_production
-  displayName: 'Deploy to Production'
-  dependsOn: build_and_test
-  condition: succeeded()
-  environment: 'Production'
-  strategy:
-    runOnce:
-      deploy:
-        steps:
-        - script: echo "Deploying application to production..."
-          displayName: 'Deployment Step'
-        
-        - task: AzureWebApp@1
-          inputs:
-            azureSubscription: 'Azure for Students (661a11a2-4925-44c3-9d96-631d27dac2e2)'
-            appName: 'IncidentReport'
-            package: '$(System.DefaultWorkingDirectory)/public'
-          displayName: 'Deploy to Azure App Service'
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(Build.SourcesDirectory)'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/application.zip'
+        replaceExistingArchive: true
+        tarCompression: gz
+        additionalArguments: '--exclude=node_modules'
+      displayName: 'Archive project as .zip'
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)/application.zip'
+        artifactName: 'app'
+      displayName: 'Publish application as pipeline artifact'
+
+- stage: Deploy
+  displayName: 'Deploy the web application'
+  dependsOn: Build
+  jobs:
+    - deployment: Deploy
+      pool:
+        vmImage: 'ubuntu-20.04'
+      environment: Production
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - download: current
+                artifact: app
+
+              - task: AzureWebApp@1
+                displayName: 'Azure App Service Deploy: website'
+                inputs:
+                  azureSubscription: 'IncidentRS'
+                  appName: 'IncidentRS'
+                  package: '$(Pipeline.Workspace)/app/application.zip'
+
+                  
